@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  label-studio:
+  - apiVersion: v2
+    appVersion: 1.7.2
+    created: "2023-03-26T15:12:29.768958115+08:00"
+    description: A Helm chart for label studio
+    digest: 262255dab5b9c8779c240acdb95a19c0c870733ab451dc180259450c21eb43c6
+    name: label-studio
+    type: application
+    urls:
+    - https://eanylin.github.io/helm-charts/label-studio-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-03-26T15:12:29.76784902+08:00"

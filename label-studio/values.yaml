@@ -1,0 +1,56 @@
+# Default values for label-studio.
+# This is a YAML-formatted file.
+# Declare variables to be passed to templates.
+
+replicaCount: 1
+
+image:
+  repository: heartexlabs/label-studio
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.7.2"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "label-studio"
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 2000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  port: 8080
+
+persistence:
+  storageClass: "gp3-csi"
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  annotations: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -25,10 +25,7 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext:
-  runAsUser: 1001
-  runAsGroup: 1001
-  fsGroup: 2000
+podSecurityContext: {}
 
 securityContext:
   allowPrivilegeEscalation: false

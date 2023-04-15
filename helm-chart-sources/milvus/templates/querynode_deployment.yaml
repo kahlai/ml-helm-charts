@@ -25,7 +25,7 @@ spec:
             - name: MINIO_ADDRESS
               value: '{{ include "milvus.fullname" . }}-minio:9000'
             - name: PULSAR_ADDRESS
-              value: '{{ include "milvus.fullname" . }}-pulsar://pulsar:6650'
+              value: 'pulsar://{{ include "milvus.fullname" . }}-pulsar:6650'
             
           resources:
             limits:

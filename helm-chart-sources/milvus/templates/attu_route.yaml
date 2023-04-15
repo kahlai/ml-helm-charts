@@ -1,0 +1,15 @@
+{{ if eq .Values.platform "openshift" }}
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ include "milvus.fullname" . }}-attu
+spec:
+  subdomain: ''
+  to:
+    kind: Service
+    name: {{ include "milvus.fullname" . }}-attu
+    weight: 100
+  port:
+    targetPort: 3000
+  wildcardPolicy: None
+{{ end }}

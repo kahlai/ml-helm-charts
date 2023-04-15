@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "milvus.fullname" . }}-indexnode
+  labels:
+    app: {{ include "milvus.fullname" . }}-indexnode
+spec:
+  ports:
+  - port: 21121
+    name: server
+  clusterIP: None
+  selector:
+    app: {{ include "milvus.fullname" . }}-indexnode

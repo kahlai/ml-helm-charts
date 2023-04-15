@@ -1,0 +1,16 @@
+{{ if .Values.useLoadBalancer }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "milvus.fullname" . }}-proxy-lb
+  labels:
+    app: {{ include "milvus.fullname" . }}-proxy
+spec:
+  ports:
+  - port: 19530
+    name: server
+  type: LoadBalancer
+  selector:
+    app: {{ include "milvus.fullname" . }}-proxy
+{{ end }}

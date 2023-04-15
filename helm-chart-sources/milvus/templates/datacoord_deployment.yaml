@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "milvus.fullname" . }}-datacoord
+  labels:
+    app: {{ include "milvus.fullname" . }}-datacoord
+spec:
+  serviceName: "{{ include "milvus.fullname" . }}-datacoord"
+  selector:
+    matchLabels:
+      app: {{ include "milvus.fullname" . }}-datacoord
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "milvus.fullname" . }}-datacoord
+    spec:
+      containers:
+        - name: datacoord
+          image: milvusdb/milvus:v2.2.3
+          command: ["milvus", "run", "datacoord"]
+          env:
+            - name: ETCD_ENDPOINTS
+              value: '{{ include "milvus.fullname" . }}-etcd:2379'
+            - name: MINIO_ADDRESS
+              value: '{{ include "milvus.fullname" . }}-minio:9000'
+            - name: PULSAR_ADDRESS
+              value: '{{ include "milvus.fullname" . }}-pulsar://pulsar:6650'
+            - name: DATA_COORD_ADDRESS
+              value: '{{ include "milvus.fullname" . }}-datacoord:13333'
+            
+          resources:
+            limits:
+              cpu: "4"
+              memory: "4Gi"
+            requests:
+              cpu: "0.5"
+              memory: "4Gi"
+          lifecycle:
+          ports:
+            - containerPort: 13333
+              name: server

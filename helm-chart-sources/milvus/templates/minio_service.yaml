@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "milvus.fullname" . }}-minio
+  labels:
+    app: {{ include "milvus.fullname" . }}-minio
+spec:
+  ports:
+  - port: 9000
+    name: server
+  - port: 9001
+    name: console
+  clusterIP: None
+  selector:
+    app: {{ include "milvus.fullname" . }}-minio

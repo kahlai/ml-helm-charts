@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "milvus.fullname" . }}-minio
+  labels:
+    app: {{ include "milvus.fullname" . }}-minio
+spec:
+  serviceName: "{{ include "milvus.fullname" . }}-minio"
+  selector:
+    matchLabels:
+      app: {{ include "milvus.fullname" . }}-minio
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "milvus.fullname" . }}-minio
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio:RELEASE.2022-03-17T06-34-49Z
+          command: ['minio', 'server' , '/minio_data', '--console-address', '0.0.0.0:9001']
+          env:
+            - name: MINIO_ACCESS_KEY
+              value: 'minioadmin'
+            - name: MINIO_SECRET_KEY
+              value: 'minioadmin'
+          resources:
+            limits:
+              cpu: "4"
+              memory: "4Gi"
+            requests:
+              cpu: "0.5"
+              memory: "4Gi"
+          lifecycle:
+          ports:
+            - containerPort: 9000
+              name: server
+            - containerPort: 9001
+              name: console
+          volumeMounts:
+          - mountPath: /minio_data
+            name: {{ include "milvus.fullname" . }}-miniodata
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "milvus.fullname" . }}-miniodata
+    labels:
+      app: {{ include "milvus.fullname" . }}-minio
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi

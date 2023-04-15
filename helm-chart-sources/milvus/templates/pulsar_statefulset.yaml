@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "milvus.fullname" . }}-pulsar
+  labels:
+    app: {{ include "milvus.fullname" . }}-pulsar
+spec:
+  serviceName: "{{ include "milvus.fullname" . }}-pulsar"
+  selector:
+    matchLabels:
+      app: {{ include "milvus.fullname" . }}-pulsar
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "milvus.fullname" . }}-pulsar
+    spec:
+      containers:
+        - name: pulsar
+          image: quay.io/kahlai/pulsar:2.8.2
+          #command: ['/bin/bash', '-c','"/pulsar/bin/apply-config-from-env.py /pulsar/conf/standalone.conf && exec /pulsar/bin/pulsar standalone --no-functions-worker --no-stream-storage"']
+          command:
+            - /pulsar/bin/pulsar
+            - standalone
+            - '--no-functions-worker'
+            - '--no-stream-storage'
+          env:
+            - name: nettyMaxFrameSizeBytes
+              value: '104867840'
+            - name: defaultRetentionTimeInMinutes
+              value: '10080'
+            - name: defaultRetentionSizeInMB
+              value: '8192'
+            - name: PULSAR_PREFIX_maxMessageSize
+              value: '104857600'
+            - name: PULSAR_GC
+              value: '-XX:+UseG1GC'
+          resources:
+            limits:
+              cpu: "4"
+              memory: "4Gi"
+            requests:
+              cpu: "0.5"
+              memory: "4Gi"
+          lifecycle:
+          ports:
+            - containerPort: 6650
+          volumeMounts:
+          - mountPath: /pulsar/data
+            name: {{ include "milvus.fullname" . }}-pulsardata
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "milvus.fullname" . }}-pulsardata
+    labels:
+      app: {{ include "milvus.fullname" . }}-pulsar
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi

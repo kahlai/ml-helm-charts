@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "milvus.fullname" . }}-etcd
+  labels:
+    app: {{ include "milvus.fullname" . }}-etcd
+spec:
+  serviceName: "{{ include "milvus.fullname" . }}-etcd"
+  selector:
+    matchLabels:
+      app: {{ include "milvus.fullname" . }}-etcd
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ include "milvus.fullname" . }}-etcd
+    spec:
+      containers:
+        - name: etcd
+          image: quay.io/coreos/etcd:v3.5.5
+          command: ["etcd", "-advertise-client-urls=http://127.0.0.1:2379", "-listen-client-urls", "http://0.0.0.0:2379", "--data-dir", "/etcd"]
+          env:
+            - name: ETCD_AUTO_COMPACTION_MODE
+              value: revision
+            - name: ETCD_AUTO_COMPACTION_RETENTION
+              value: '1000'
+            - name: ETCD_QUOTA_BACKEND_BYTES
+              value: '4294967296'
+            - name: ETCD_SNAPSHOT_COUNT
+              value: '50000'
+          resources:
+            limits:
+              cpu: "4"
+              memory: "4Gi"
+            requests:
+              cpu: "0.5"
+              memory: "4Gi"
+          lifecycle:
+          ports:
+            - containerPort: 2379
+          volumeMounts:
+          - mountPath: /etcd
+            name: {{ include "milvus.fullname" . }}-etcddata
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "milvus.fullname" . }}-etcddata
+    labels:
+      app: {{ include "milvus.fullname" . }}-etcd
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi

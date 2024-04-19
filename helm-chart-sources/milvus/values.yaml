@@ -7,10 +7,10 @@ useLoadBalancer: false
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: milvusdb/milvus
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v2.2.3"
 
 imagePullSecrets: []
 nameOverride: ""

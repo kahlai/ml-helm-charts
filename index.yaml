@@ -3,7 +3,7 @@ entries:
   label-studio:
   - apiVersion: v2
     appVersion: 1.7.2
-    created: "2023-04-15T19:24:21.380548+08:00"
+    created: "2024-04-19T13:46:14.054025+08:00"
     description: A Helm chart for label studio
     digest: a4040553cdf7a920ffaa7b68619155d14955dea2a01187202822e4d0b143329f
     name: label-studio
@@ -14,7 +14,17 @@ entries:
   milvus:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-04-15T19:24:21.381293+08:00"
+    created: "2024-04-19T13:46:14.054658+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 9b25032a36d07fbf724e71709fd2b9d07c10c730a3730aa7c91e150457d52d52
+    name: milvus
+    type: application
+    urls:
+    - https://kahlai.github.io/ml-helm-charts/milvus-2.4.0.tgz
+    version: 2.4.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-04-19T13:46:14.05435+08:00"
     description: A Helm chart for Kubernetes
     digest: d58a48af8a9bee1cb51ea966ccdabae25f2c3d0d5807732778ed3d554d5fdf08
     name: milvus
@@ -22,4 +32,4 @@ entries:
     urls:
     - https://kahlai.github.io/ml-helm-charts/milvus-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-15T19:24:21.379878+08:00"
+generated: "2024-04-19T13:46:14.05373+08:00"

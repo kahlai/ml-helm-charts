@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: indexnode
-          image: milvusdb/milvus:v2.2.3
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["milvus", "run", "indexnode"]
           env:
             - name: ETCD_ENDPOINTS

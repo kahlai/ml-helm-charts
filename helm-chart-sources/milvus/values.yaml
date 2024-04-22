@@ -10,7 +10,7 @@ image:
   repository: milvusdb/milvus
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v2.2.3"
+  tag: "2.4-20240422-969e9cc6-amd64"
 
 imagePullSecrets: []
 nameOverride: ""
